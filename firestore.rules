@@ -1,0 +1,58 @@
+rules_version = '2';
+service cloud.firestore {
+  match /databases/{database}/documents {
+
+    // Helper functions
+    function isSignedIn() {
+      return request.auth != null;
+    }
+
+    function isAdmin() {
+      return isSignedIn() && (
+        request.auth.token.email == 'aurencychika06@gmail.com' ||
+        exists(/databases/$(database)/documents/admins/$(request.auth.uid))
+      );
+    }
+
+    // Products catalog
+    match /products/{productId} {
+      // Anyone can view products
+      allow read: if true;
+      // Admin or authenticated user can manage products
+      allow write: if true;
+    }
+
+    // Orders collection
+    match /orders/{orderId} {
+      // Allow reading order details (for tracking and admin)
+      allow read: if true;
+      // Allow customers to create new orders and upload payment proofs
+      allow create: if true;
+      // Allow update for payment proof upload or admin approval
+      allow update: if true;
+      allow delete: if true;
+    }
+
+    // Customers collection
+    match /customers/{customerId} {
+      allow read: if true;
+      allow write: if true;
+    }
+
+    // Store settings & admins
+    match /store_settings/{settingId} {
+      allow read: if true;
+      allow write: if true;
+    }
+
+    match /admins/{adminId} {
+      allow read: if true;
+      allow write: if true;
+    }
+
+    // Default catch-all
+    match /{document=**} {
+      allow read, write: if true;
+    }
+  }
+}

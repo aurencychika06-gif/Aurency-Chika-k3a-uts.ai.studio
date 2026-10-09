@@ -1,0 +1,90 @@
+{
+  "entities": {
+    "Product": {
+      "title": "Product",
+      "description": "TasCantik product catalog item",
+      "type": "object",
+      "properties": {
+        "id": { "type": "string" },
+        "name": { "type": "string", "maxLength": 150 },
+        "category": { "type": "string", "enum": ["Tote Bag & Workwear", "Crossbody & Sling Bag", "Backpack & Travel"] },
+        "price": { "type": "number" },
+        "stock": { "type": "number" },
+        "description": { "type": "string", "maxLength": 2000 },
+        "material": { "type": "string", "maxLength": 100 },
+        "dimensions": { "type": "string", "maxLength": 100 },
+        "weight": { "type": "string", "maxLength": 50 },
+        "image": { "type": "string", "maxLength": 1000 },
+        "images": { "type": "array" },
+        "rating": { "type": "number" },
+        "soldCount": { "type": "number" },
+        "createdAt": { "type": "string" },
+        "updatedAt": { "type": "string" }
+      },
+      "required": ["id", "name", "category", "price", "stock", "image"]
+    },
+    "Order": {
+      "title": "Order",
+      "description": "Customer purchase order",
+      "type": "object",
+      "properties": {
+        "id": { "type": "string" },
+        "orderNumber": { "type": "string", "maxLength": 50 },
+        "customerName": { "type": "string", "maxLength": 100 },
+        "customerEmail": { "type": "string", "maxLength": 150 },
+        "customerPhone": { "type": "string", "maxLength": 50 },
+        "customerAddress": { "type": "string", "maxLength": 500 },
+        "shippingCity": { "type": "string", "maxLength": 100 },
+        "courier": { "type": "string", "maxLength": 50 },
+        "items": { "type": "array" },
+        "subtotal": { "type": "number" },
+        "shippingFee": { "type": "number" },
+        "totalAmount": { "type": "number" },
+        "status": {
+          "type": "string",
+          "enum": ["menunggu_pembayaran", "menunggu_verifikasi", "diproses", "dikirim", "selesai", "dibatalkan"]
+        },
+        "paymentMethod": { "type": "string", "maxLength": 50 },
+        "paymentProofUrl": { "type": "string", "maxLength": 1000000 },
+        "paymentProofDate": { "type": "string" },
+        "approvalNotes": { "type": "string", "maxLength": 500 },
+        "trackingNumber": { "type": "string", "maxLength": 100 },
+        "createdAt": { "type": "string" },
+        "updatedAt": { "type": "string" }
+      },
+      "required": ["id", "orderNumber", "customerName", "customerEmail", "customerPhone", "items", "totalAmount", "status", "paymentMethod"]
+    },
+    "Customer": {
+      "title": "Customer",
+      "description": "Registered or guest customer profile",
+      "type": "object",
+      "properties": {
+        "id": { "type": "string" },
+        "name": { "type": "string", "maxLength": 100 },
+        "email": { "type": "string", "maxLength": 150 },
+        "phone": { "type": "string", "maxLength": 50 },
+        "address": { "type": "string", "maxLength": 500 },
+        "city": { "type": "string", "maxLength": 100 },
+        "totalOrders": { "type": "number" },
+        "totalSpent": { "type": "number" },
+        "lastOrderDate": { "type": "string" },
+        "createdAt": { "type": "string" }
+      },
+      "required": ["id", "name", "email"]
+    }
+  },
+  "firestore": {
+    "/products/{productId}": {
+      "schema": "Product",
+      "description": "Store bag catalog items"
+    },
+    "/orders/{orderId}": {
+      "schema": "Order",
+      "description": "Customer orders and payment approval tracking"
+    },
+    "/customers/{customerId}": {
+      "schema": "Customer",
+      "description": "Aggregated customer records"
+    }
+  }
+}

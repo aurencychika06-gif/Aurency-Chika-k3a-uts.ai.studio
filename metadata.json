@@ -1,0 +1,6 @@
+{
+  "name": "TasCantik - Chika Official Store",
+  "description": "Webstore marketplace TasCantik oleh Chika Official Store dengan koleksi tas minimalis & fungsional, shopping cart, admin panel, manajemen produk & stok, order tracking, dan approval bukti pembayaran.",
+  "requestFramePermissions": [],
+  "majorCapabilities": ["MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"]
+}
